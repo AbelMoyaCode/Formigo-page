@@ -1,0 +1,1369 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formigo-Simulador de entrevistas</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" />
+  <link rel="icon" href="img/LOGO-MOCHI.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/styles-simulator.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+  <style>
+      
+    body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #f8fbfb;
+      }
+  
+      .hidden {
+        display: none;
+    }
+    
+    
+  
+
+      .boton {
+        background-color: #49e9c9;
+        color: #0e1b18;
+        padding: 0.6rem 1.2rem;
+        border-radius: 20px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+        font-size: 1rem;
+        margin-bottom: 2em;
+      }
+  
+      .boton:hover {
+        background-color: #3fc0a4;
+      }
+  
+      .boton-secundario {
+        background-color: #e8f3f0;
+        color: #0e1b18;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+      }
+  
+      .boton-secundario:hover {
+        background-color: #cfdad6;
+      }
+
+      .footer {
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 2rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+  
+      .boton:hover {
+        background-color: #3fc0a4;
+      }
+  
+      .card {
+        border: 1px solid #e8f3f0;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        transition: transform 0.3s;
+      }
+  
+      .card:hover {
+        transform: scale(1.05);
+      }
+  
+      .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+      }
+  
+      .card-description {
+        color: #4f9688;
+      }
+  
+      .barra-progreso-completado {
+        background-color: #49e9c9;
+        height: 10px;
+        width: 10%;
+      }
+
+    .sutil-contorno {
+      border: 1px solid #e2e8f0;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .texto-progreso {
+      flex: 1;
+    }
+
+    .imagen-espacio {
+      width: 150px;
+      height: auto;
+      margin-left: 1rem;
+    }
+    .borde-suave {
+      border: 1px solid #e2e8f0; /* Color tenue */
+      border-radius: 8px; /* Esquinas redondeadas */
+      padding: 1.5rem; /* Espaciado interno */
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.05); /* Sombra ligera */
+      transition: box-shadow 0.3s ease;
+    }
+    
+    .borde-suave:hover {
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Efecto hover */
+    }
+    
+
+    /* Animación de deslizamiento */
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .slide-down {
+      animation: slideDown 0.3s ease-out;
+    }
+
+    /* Estilo para los cards */
+    .card-container {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transform: scale(1);
+      cursor: pointer;
+      border: none;
+      background-color: transparent;
+    }
+
+    .card-container:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-container img {
+      border-radius: 8px;
+      width: 100%;
+      height: auto;
+      display: block;
+      background-color: transparent;
+    }
+
+    .card {
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .card p {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-top: 0.5em;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .card-container img {
+      border-radius: 12px;
+    }
+    .borde-suave{
+      cursor: pointer;
+    }
+    .boton {
+        background-color: #49e9c9;
+        color: #0e1b18;
+        padding: 0.8rem 1.6rem;
+        border-radius: 20px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+        font-size: 1rem;
+      }
+  
+      .boton:hover {
+        background-color: #3fc0a4;
+      }
+  
+      .simulador-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 2rem;
+      }
+  
+      .simulador-pantalla {
+        display: flex;
+        background-color: #ffffff;
+        width: 60%;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 2rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+  
+      .simulador-avatar {
+        position: absolute;
+        top: -30px;
+        right: -125px; /* Ajuste para mover la imagen más a la derecha */
+        width: 150px; /* Tamaño de la imagen */
+        height: auto;
+      }
+      
+      .globo-dialogo {
+        position: absolute;
+        top: -140px;
+        right: -200px; /* Ajuste para mover la imagen más a la derecha */
+        background-color: #49e9c9;
+        color: #ffffff;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        width: 200px;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      
+      .globo-dialogo::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 30px;
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #49e9c9;
+      }
+      
+      .pregunta {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: #0e1b18;
+      }
+  
+      .opciones {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+  
+      .opcion {
+        background-color: #e8f3f0;
+        color: #0e1b18;
+        padding: 0.8rem 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-align: center;
+      }
+  
+      .opcion:hover {
+        background-color: #cfdad6;
+      }
+
+      /* PROGRESO */
+
+      .borde-suave {
+        border: 1px solid #e2e8f0;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+        cursor: pointer;
+      }
+      
+      .borde-suave:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      .opacity-50 {
+        opacity: 0.5;
+      }
+      
+      .cursor-not-allowed {
+        cursor: not-allowed;
+      }
+      .w-full.flex.justify-start {
+        margin-bottom: 1rem;
+      }
+      
+      
+  
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+  
+      .slide-down {
+        animation: slideDown 0.3s ease-out;
+      }
+  
+
+    /* Estilos específicos para el menú de perfil en modo responsive */
+    @media (max-width: 768px) {
+      #profileMenu {
+        position: relative;
+        width: 100%;
+      }
+      .simulador-avatar {
+        position: relative;
+        top: 0; /* La imagen se moverá al flujo normal */
+        right: 0;
+        margin: 0 auto; /* Centrar la imagen */
+        display: block; /* Asegura que la imagen sea visible */
+      }
+    
+      .simulador-pantalla {
+        flex-direction: column; /* Cambia la dirección del contenido a vertical */
+        align-items: center; /* Centra los elementos */
+      }
+      
+      .simulador-pantalla {
+        padding: 1rem;
+        max-width: 100%;
+      }
+    
+      .avatar-container {
+        align-items: center;
+      }
+    
+      .simulador-avatar {
+        width: 120px; /* Reduce el tamaño del avatar */
+      }
+    
+      .globo-dialogo {
+        position: relative;
+        top: 0; /* La imagen se moverá al flujo normal */
+        right: 0;
+        margin: 0 auto; /* Centrar la imagen */
+        display: block; /* Asegura que la imagen sea visible */
+      }
+
+    }
+
+  </style>
+</head>
+
+<body class="flex flex-col min-h-screen bg-[#f8fbfb] text-[#0e1b18]">
+  <!-- Encabezado -->
+  <header class="flex items-center justify-between border-b border-[#e8f3f0] p-4 md:px-10">
+    <!-- Logo y Título -->
+    <a href="index.html">
+      <div class="flex items-center gap-4" style="cursor: pointer;">
+        <img src="img/LOGO-MOCHI.png" alt="Formigo Logo" class="w-10 h-10" />
+        <h2 class="text-lg font-bold">Formigo</h2>
+      </div>
+    </a>
+
+    <!-- Menú de navegación y botones (versión escritorio) -->
+    <div class="hidden md:flex items-center gap-6">
+      <nav class="flex gap-6">
+        <a href="simulador-entrevistas.html" id="start-simulator-link" class="text-base font-medium">Simulador</a>
+        <a href="logros.html" class="text-base font-medium">Logros</a>
+      </nav>
+      <!-- Ícono de notificaciones -->
+      <div class="relative">
+        <button id="notificationButton" class="text-[#0e1b18] relative focus:outline-none">
+          <!-- Contenedor de notificaciones -->
+          <div class="relative inline-block">
+            <!-- Ícono de campana -->
+            <i class="fas fa-bell text-xl" style="color: #757474;"></i>
+            
+            <!-- Notificación (círculo con número) -->
+            <span class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5 transform translate-x-2/4 -translate-y-2/4">
+              1
+            </span>
+          </div>
+          <!-- Indicador de notificaciones -->
+          <span id="notificationBadge" class="hidden absolute top-0 right-0 bg-[#49e9c9] text-white text-xs font-bold rounded-full px-2 py-0.5">3</span>
+        </button>
+        <!-- Menú desplegable de notificaciones -->
+        <div id="notificationMenu" class="hidden absolute right-0 mt-2 w-72 bg-white border border-[#e8f3f0] rounded-lg shadow-lg">
+          <div class="px-4 py-2 border-b text-sm font-medium text-[#0e1b18]">Notificaciones</div>
+          <ul class="text-sm">
+            <li class="px-4 py-2 hover:bg-[#f8fbfb] cursor-pointer">Nueva respuesta en el simulador</li>
+            <li class="px-4 py-2 hover:bg-[#f8fbfb] cursor-pointer">Progreso actualizado</li>
+            <li class="px-4 py-2 hover:bg-[#f8fbfb] cursor-pointer">¡Felicidades por tu logro!</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Perfil con Menú Desplegable -->
+      <div class="relative">
+        <div id="profileButton" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 h-10 cursor-pointer" style='background-image: url("img/userprofile.png");'></div>
+        <div id="profileMenu" class="hidden absolute right-0 mt-2 w-48 bg-white border border-[#e8f3f0] rounded-lg shadow-lg slide-down">
+          <a href="mi-perfil.html" class="block px-4 py-2 text-sm text-[#0e1b18] hover:bg-[#f8fbfb]">Mi perfil</a>
+          <a href="configuracion.html" class="block px-4 py-2 text-sm text-[#0e1b18] hover:bg-[#f8fbfb]">Configuración</a>
+          <a href="#" class="block px-4 py-2 text-sm text-[#0e1b18] hover:bg-[#f8fbfb]">Cerrar sesión</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón de menú para dispositivos móviles -->
+    <div class="md:hidden">
+      <button id="menuButton" class="focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Menú desplegable para dispositivos móviles con perfil -->
+  <div id="mobileMenu" class="md:hidden hidden flex flex-col items-center p-2 border-t border-[#e8f3f0] slide-down">
+    <a href="simulador-entrevistas.html" class="py-2 text-lg font-medium">Simulador</a>
+    <a href="logros.html" class="py-2 text-lg font-medium">Logros</a>
+    <a href="#" class="py-2 text-lg font-medium flex justify-between items-center">
+      <span>Notificaciones</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-1-circle-fill ml-2" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M9.283 4.002H7.971L6.072 5.385v1.271l1.834-1.318h.065V12h1.312z"/>
+      </svg>
+    </a>
+    <hr class="my-2 w-full border-[#e8f3f0]" />
+    <!-- Opciones del menú de perfil dentro del menú de hamburguesa en móvil -->
+    <a href="#" class="block px-4 py-2 text-sm text-[#0e1b18] hover:bg-[#f8fbfb]">Mi perfil</a>
+    <a href="configuracion.html" class="block px-4 py-2 text-sm text-[#0e1b18] hover:bg-[#f8fbfb]">Configuración</a>
+    <a href="#" class="block px-4 py-2 text-sm text-[#0e1b18] hover:bg-[#f8fbfb]">Cerrar sesión</a>
+  </div>
+
+  <!-- Contenido principal -->
+  <main class="flex-grow container mx-auto px-4 md:px-10 max-w-5xl">
+    <!-- Menú Principal -->
+    <section id="menu" class="container mx-auto px-4 py-8">
+      <h1 class="text-2xl font-bold text-center mb-6">¡Bienvenido al Simulador de Entrevistas!</h1>
+      <p class="text-center text-[#4f9688] mb-6">Revisa tu progreso y elige dónde continuar:</p>
+      
+      <!-- Espacio para la imagen del avatar -->
+      <div class="flex justify-center mb-6">
+        <img src="img/AVATAR-POSISION1-MOCHI.png" alt="Mascota del Simulador" class="w-48 h-auto">
+      </div>
+      
+      <div class="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
+        <!-- Tarjeta de "Comenzar Simulador" -->
+        <div class="borde-suave text-center" onclick="startSimulator()">
+          <h2 class="card-title text-lg font-bold">Comenzar Simulador</h2>
+          <p class="text-[#4f9688] mt-2">Empieza a responder las preguntas.</p>
+          <!-- Ícono temático debajo -->
+          <div class="flex justify-center mt-4">
+            <i class="fas fa-play-circle text-[#49e9c9] text-4xl"></i>
+          </div>
+        </div>
+        
+        <!-- Tarjeta de "Ver Progreso" -->
+        <div id="progress-card" class="borde-suave text-center" onclick="showProgressPage()">
+            <h2 class="card-title text-lg font-bold">Ver Progreso</h2>
+            <p class="text-[#4f9688] mt-2">Revisa tus respuestas anteriores.</p>
+            <div class="flex justify-center mt-4">
+                <i class="fas fa-check-circle text-[#49e9c9] text-4xl"></i>
+            </div>
+        </div>
+        
+      </div>
+    </section>
+    
+    <!-- Simulador: Pregunta 1 -->
+    <section id="simulator-question1" class="hidden flex-grow container mx-auto px-4 md:px-10 max-w-7xl">
+      <section class="simulador-container relative w-full flex flex-col justify-center items-center md:items-stretch" style="min-height: calc(100vh - 160px); margin-top: 1rem; margin-bottom: 2rem;">
+        <h1 class="text-xl md:text-2xl font-bold text-center mb-4 text-[#0e1b18]">Nivel 1: Conociéndote mejor</h1>
+        <h3 class="text-center text-[#4f9688] font-medium mb-6">¡Prepárate para destacar en tus entrevistas!</h3>
+
+        <div class="w-full flex justify-center mb-4">
+          <div class="w-full max-w-2xl px-4 md:px-0">
+            <div class="bg-[#e8f3f0] h-2 rounded-full mx-auto" style="max-width: 80%;">
+              <div class="barra-progreso-completado h-2 rounded-full" style="width: 10%;"></div>
+            </div>
+            <p class="text-sm text-center text-[#0e1b18] mt-2">Pregunta 1 de 10</p>
+          </div>
+        </div>
+        <div class="simulador-pantalla w-full max-w-md md:max-w-2xl relative mx-auto flex flex-col items-center">
+          <!-- Contenedor del Avatar y Globo -->
+          <div class="simulador-avatar-container">
+            <div class="globo-dialogo" alt="Mochi Avatar">
+              <p id="dialogo-texto">¡Hola, soy Mochi! Estoy aquí para ayudarte. Recuerda responder con honestidad y confianza, no te juzgaré</p>
+            </div>            
+            <img src="img/AVATAR-POSISION3-MOCHI.png" alt="Mochi Avatar" class="simulador-avatar">
+          </div>
+          <!-- Contenedor de la Pregunta -->
+          <div class="w-full">
+            <h2 class="pregunta text-center md:text-left px-4">¿Cómo responderías a la pregunta: "Háblame de ti" en una entrevista?</h2>
+            <div class="opciones px-4">
+              <button class="opcion">Hablar de mis logros académicos y experiencias laborales.</button>
+              <button class="opcion">Describir mis hobbies y pasatiempos.</button>
+              <button class="opcion">Centrarme solo en mis habilidades técnicas.</button>
+              <button class="opcion">No estoy seguro, necesitaría orientación.</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-full mt-6 flex justify-start md:justify-center px-4">
+          <button class="boton-secundario volver-menu">Volver al Menú</button>
+        </div>
+        <div class="w-full mt-4 text-center px-4">
+          <p class="text-sm text-[#0e1b18]">
+            <i class="fas fa-info-circle text-[#49e9c9]"></i>
+            Si necesitas ayuda, selecciona "No estoy seguro" para obtener orientación.
+          </p>
+        </div>
+      </section>
+      <audio id="confirmSound" src="sound/sound-buttom-confirm.mp3" preload="auto"></audio>
+      <audio id="congratulationsSound" src="sound/tada-fanfare-a-6313.mp3" preload="auto"></audio>
+    </section>
+
+    <!-- Simulador: Pregunta 2 -->
+    <section id="simulator-question2" class="hidden flex-grow container mx-auto px-4 md:px-10 max-w-7xl">
+      <section class="simulador-container relative w-full flex flex-col justify-center items-center md:items-stretch" style="min-height: calc(100vh - 160px); margin-top: 1rem; margin-bottom: 2rem;">
+        <h1 class="text-xl md:text-2xl font-bold text-center mb-4 text-[#0e1b18]">Nivel 1: Conociéndote mejor</h1>
+        <h3 class="text-center text-[#4f9688] font-medium mb-6">¡Prepárate para destacar en tus entrevistas!</h3>
+        <div class="w-full flex justify-center mb-4">
+          <div class="w-full max-w-2xl px-4 md:px-0">
+            <div class="bg-[#e8f3f0] h-2 rounded-full mx-auto" style="max-width: 80%;">
+              <div class="barra-progreso-completado h-2 rounded-full" style="width: 20%;"></div>
+            </div>
+            <p class="text-sm text-center text-[#0e1b18] mt-2">Pregunta 2 de 10</p>
+          </div>
+        </div>
+        <div class="simulador-pantalla w-full max-w-md md:max-w-2xl relative mx-auto flex flex-col items-center">
+          <!-- Contenedor del Avatar y Globo -->
+          <div class="simulador-avatar-container">
+            <div class="globo-dialogo" alt="Mochi Avatar">
+              <p id="dialogo-texto-2">¡Muy bien!, sigamos con la siguiente pregunta</p>
+            </div>            
+            <img src="img/AVATAR-POSISION3-MOCHI.png" alt="Mochi Avatar" class="simulador-avatar">
+          </div>
+          <!-- Contenedor de la Pregunta -->
+          <div class="w-full">
+            <h2 class="pregunta text-center md:text-left px-4">¿A qué área universitaria o carrera perteneces?</h2>
+            <div class="opciones px-4">
+              <button class="opcion">Ingeniería</button>
+              <button class="opcion">Ciencias Sociales</button>
+              <button class="opcion">Humanidades</button>
+              <button class="opcion">No estoy seguro, necesitaría orientación.</button>
+            </div>
+          </div>
+        </div>
+    
+        <div class="w-full mt-6 flex justify-start md:justify-center px-4">
+          <button class="boton-secundario volver-menu">Volver al Menú</button>
+        </div>
+        <div class="w-full mt-4 text-center px-4">
+          <p class="text-sm text-[#0e1b18]">
+            <i class="fas fa-info-circle text-[#49e9c9]"></i>
+            Si necesitas ayuda, selecciona "No estoy seguro" para obtener orientación.
+          </p>
+        </div>
+      </section>
+    </section>
+
+    <!-- Simulador: Pregunta 3 -->
+    <section id="simulator-question3" class="hidden flex-grow container mx-auto px-4 md:px-10 max-w-7xl">
+      <section class="simulador-container relative w-full flex flex-col justify-center items-center md:items-stretch" style="min-height: calc(100vh - 160px); margin-top: 1rem; margin-bottom: 2rem;">
+        <h1 class="text-xl md:text-2xl font-bold text-center mb-4 text-[#0e1b18]">Nivel 1: Conociéndote mejor</h1>
+        <h3 class="text-center text-[#4f9688] font-medium mb-6">¡Prepárate para destacar en tus entrevistas!</h3>
+        <div class="w-full flex justify-center mb-4">
+          <div class="w-full max-w-2xl px-4 md:px-0">
+            <div class="bg-[#e8f3f0] h-2 rounded-full mx-auto" style="max-width: 80%;">
+              <div class="barra-progreso-completado h-2 rounded-full" style="width: 30%;"></div>
+            </div>
+            <p class="text-sm text-center text-[#0e1b18] mt-2">Pregunta 3 de 10</p>
+          </div>
+        </div>
+        <div class="simulador-pantalla w-full max-w-md md:max-w-2xl relative mx-auto flex flex-col items-center">
+          <div class="simulador-avatar-container">
+            <div class="globo-dialogo" alt="Mochi Avatar">
+              <p id="dialogo-texto-3">"Oh vaya, parece que estás en ritmo. ¡Sigue así!"</p>
+            </div>
+            <img src="img/AVATAR-POSISION3-MOCHI.png" alt="Mochi Avatar" class="simulador-avatar">
+          </div>
+          <div class="w-full">
+            <h2 class="pregunta text-center md:text-left px-4">¿Cuál es tu fortaleza más destacada?</h2>
+            <div class="opciones px-4">
+              <button class="opcion">Resolución de problemas</button>
+              <button class="opcion">Trabajo en equipo</button>
+              <button class="opcion">Liderazgo</button>
+              <button class="opcion">No estoy seguro, necesitaría orientación.</button>
+            </div>
+          </div>
+        </div>
+  
+        <div class="w-full mt-6 flex justify-start md:justify-center px-4">
+          <button class="boton-secundario volver-menu">Volver al Menú</button>
+        </div>
+        <div class="w-full mt-4 text-center px-4">
+          <p class="text-sm text-[#0e1b18]">
+            <i class="fas fa-info-circle text-[#49e9c9]"></i>
+            Si necesitas ayuda, selecciona "No estoy seguro" para obtener orientación.
+          </p>
+        </div>
+      </section>
+    </section>
+
+    <!-- Simulador: Pregunta 4 -->
+    <section id="simulator-question4" class="hidden flex-grow container mx-auto px-4 md:px-10 max-w-7xl">
+      <section class="simulador-container relative w-full flex flex-col justify-center items-center md:items-stretch" style="min-height: calc(100vh - 160px); margin-top: 1rem; margin-bottom: 2rem;">
+        <h1 class="text-xl md:text-2xl font-bold text-center mb-4 text-[#0e1b18]">Nivel 1: Conociéndote mejor</h1>
+        <h3 class="text-center text-[#4f9688] font-medium mb-6">¡Prepárate para destacar en tus entrevistas!</h3>
+        <div class="w-full flex justify-center mb-4">
+          <div class="w-full max-w-2xl px-4 md:px-0">
+            <div class="bg-[#e8f3f0] h-2 rounded-full mx-auto" style="max-width: 80%;">
+              <div class="barra-progreso-completado h-2 rounded-full" style="width: 40%;"></div>
+            </div>
+            <p class="text-sm text-center text-[#0e1b18] mt-2">Pregunta 4 de 10</p>
+          </div>
+        </div>
+        <div class="simulador-pantalla w-full max-w-md md:max-w-2xl relative mx-auto flex flex-col items-center">
+          <div class="simulador-avatar-container">
+            <div class="globo-dialogo" alt="Mochi Avatar">
+              <p id="dialogo-texto-4">"¡Esto va increíble! Estoy seguro de que destacarás."</p>
+            </div>
+            <img src="img/AVATAR-POSISION3-MOCHI.png" alt="Mochi Avatar" class="simulador-avatar">
+          </div>
+          <div class="w-full">
+            <h2 class="pregunta text-center md:text-left px-4">¿Qué opinas sobre el trabajo bajo presión?</h2>
+            <div class="opciones px-4">
+              <button class="opcion">Me enfoco y soy eficiente.</button>
+              <button class="opcion">Prefiero trabajar a mi ritmo.</button>
+              <button class="opcion">Depende de la situación.</button>
+              <button class="opcion">No estoy seguro, necesitaría orientación.</button>
+            </div>
+          </div>
+        </div>
+        <div class="w-full mt-6 flex justify-start md:justify-center px-4">
+          <button class="boton-secundario volver-menu">Volver al Menú</button>
+        </div>
+        <div class="w-full mt-4 text-center px-4">
+          <p class="text-sm text-[#0e1b18]">
+            <i class="fas fa-info-circle text-[#49e9c9]"></i>
+            Si necesitas ayuda, selecciona "No estoy seguro" para obtener orientación.
+          </p>
+        </div>
+      </section>
+    </section>
+
+    <!-- Simulador: Pregunta 5 -->
+    <section id="simulator-question5" class="hidden flex-grow container mx-auto px-4 md:px-10 max-w-7xl">
+      <section class="simulador-container relative w-full flex flex-col justify-center items-center md:items-stretch" style="min-height: calc(100vh - 160px); margin-top: 1rem; margin-bottom: 2rem;">
+        <h1 class="text-xl md:text-2xl font-bold text-center mb-4 text-[#0e1b18]">Nivel 1: Conociéndote mejor</h1>
+        <h3 class="text-center text-[#4f9688] font-medium mb-6">¡Prepárate para destacar en tus entrevistas!</h3>
+        <div class="w-full flex justify-center mb-4">
+          <div class="w-full max-w-2xl px-4 md:px-0">
+            <div class="bg-[#e8f3f0] h-2 rounded-full mx-auto" style="max-width: 80%;">
+              <div class="barra-progreso-completado h-2 rounded-full" style="width: 50%;"></div>
+            </div>
+            <p class="text-sm text-center text-[#0e1b18] mt-2">Pregunta 5 de 10</p>
+          </div>
+        </div>
+        <div class="simulador-pantalla w-full max-w-md md:max-w-2xl relative mx-auto flex flex-col items-center">
+          <div class="simulador-avatar-container">
+            <div class="globo-dialogo" alt="Mochi Avatar">
+              <p id="dialogo-texto-5">"¡Excelente! Esta es clave para conocerte mejor."</p>
+            </div>
+            <img src="img/AVATAR-POSISION3-MOCHI.png" alt="Mochi Avatar" class="simulador-avatar">
+          </div>
+          <div class="w-full">
+            <h2 class="pregunta text-center md:text-left px-4">¿Qué te motiva a seguir creciendo profesionalmente?</h2>
+            <div class="opciones px-4">
+              <button class="opcion">Superarme a mí mismo.</button>
+              <button class="opcion">Tener estabilidad financiera.</button>
+              <button class="opcion">Ayudar a otros a crecer.</button>
+              <button class="opcion">No estoy seguro, necesitaría orientación.</button>
+            </div>
+          </div>
+        </div>
+        <div class="w-full mt-6 flex justify-start md:justify-center px-4">
+          <button class="boton-secundario volver-menu">Volver al Menú</button>
+        </div>
+        <div class="w-full mt-4 text-center px-4">
+          <p class="text-sm text-[#0e1b18]">
+            <i class="fas fa-info-circle text-[#49e9c9]"></i>
+            Si necesitas ayuda, selecciona "No estoy seguro" para obtener orientación.
+          </p>
+        </div>
+      </section>
+    </section>
+
+    <!-- Simulador: Pregunta 6 -->
+    <section id="simulator-question6" class="hidden flex-grow container mx-auto px-4 md:px-10 max-w-7xl">
+      <section class="simulador-container relative w-full flex flex-col justify-center items-center md:items-stretch" style="min-height: calc(100vh - 160px); margin-top: 1rem; margin-bottom: 2rem;">
+        <h1 class="text-xl md:text-2xl font-bold text-center mb-4 text-[#0e1b18]">Nivel 1: Conociéndote mejor</h1>
+        <h3 class="text-center text-[#4f9688] font-medium mb-6">¡Prepárate para destacar en tus entrevistas!</h3>
+        <div class="w-full flex justify-center mb-4">
+          <div class="w-full max-w-2xl px-4 md:px-0">
+            <div class="bg-[#e8f3f0] h-2 rounded-full mx-auto" style="max-width: 80%;">
+              <div class="barra-progreso-completado h-2 rounded-full" style="width: 60%;"></div>
+            </div>
+            <p class="text-sm text-center text-[#0e1b18] mt-2">Pregunta 6 de 10</p>
+          </div>
+        </div>
+        <div class="simulador-pantalla w-full max-w-md md:max-w-2xl relative mx-auto flex flex-col items-center">
+          <div class="simulador-avatar-container">
+            <div class="globo-dialogo" alt="Mochi Avatar">
+              <p id="dialogo-texto-6">"¡Lo estás haciendo genial! Sigamos avanzando."</p>
+            </div>
+            <img src="img/AVATAR-POSISION3-MOCHI.png" alt="Mochi Avatar" class="simulador-avatar">
+          </div>
+          <div class="w-full">
+            <h2 class="pregunta text-center md:text-left px-4">¿Qué estrategias utilizas para resolver conflictos en el trabajo?</h2>
+            <div class="opciones px-4">
+              <button class="opcion">Escuchar todas las partes involucradas.</button>
+              <button class="opcion">Tomar decisiones de inmediato.</button>
+              <button class="opcion">Buscar apoyo de un mediador.</button>
+              <button class="opcion">No estoy seguro, necesitaría orientación.</button>
+            </div>
+          </div>
+        </div>
+        <div class="w-full mt-6 flex justify-start md:justify-center px-4">
+          <button class="boton-secundario volver-menu">Volver al Menú</button>
+        </div>
+        <div class="w-full mt-4 text-center px-4">
+          <p class="text-sm text-[#0e1b18]">
+            <i class="fas fa-info-circle text-[#49e9c9]"></i>
+            Si necesitas ayuda, selecciona "No estoy seguro" para obtener orientación.
+          </p>
+        </div>
+      </section>
+    </section>
+
+    <!-- Simulador: Pregunta 7 -->
+    <section id="simulator-question7" class="hidden flex-grow container mx-auto px-4 md:px-10 max-w-7xl">
+      <section class="simulador-container relative w-full flex flex-col justify-center items-center md:items-stretch" style="min-height: calc(100vh - 160px); margin-top: 1rem; margin-bottom: 2rem;">
+        <h1 class="text-xl md:text-2xl font-bold text-center mb-4 text-[#0e1b18]">Nivel 1: Conociéndote mejor</h1>
+        <h3 class="text-center text-[#4f9688] font-medium mb-6">¡Prepárate para destacar en tus entrevistas!</h3>
+        <div class="w-full flex justify-center mb-4">
+          <div class="w-full max-w-2xl px-4 md:px-0">
+            <div class="bg-[#e8f3f0] h-2 rounded-full mx-auto" style="max-width: 80%;">
+              <div class="barra-progreso-completado h-2 rounded-full" style="width: 70%;"></div>
+            </div>
+            <p class="text-sm text-center text-[#0e1b18] mt-2">Pregunta 7 de 10</p>
+          </div>
+        </div>
+        <div class="simulador-pantalla w-full max-w-md md:max-w-2xl relative mx-auto flex flex-col items-center">
+          <div class="simulador-avatar-container">
+            <div class="globo-dialogo" alt="Mochi Avatar">
+              <p id="dialogo-texto-7">"¡Sigue así, estás muy cerca del final!"</p>
+            </div>
+            <img src="img/AVATAR-POSISION3-MOCHI.png" alt="Mochi Avatar" class="simulador-avatar">
+          </div>
+          <div class="w-full">
+            <h2 class="pregunta text-center md:text-left px-4">¿Cómo manejas el estrés en situaciones laborales?</h2>
+            <div class="opciones px-4">
+              <button class="opcion">Organizando mis tareas por prioridad.</button>
+              <button class="opcion">Hablando con un compañero de confianza.</button>
+              <button class="opcion">Tomando pausas estratégicas.</button>
+              <button class="opcion">No estoy seguro, necesitaría orientación.</button>
+            </div>
+          </div>
+        </div>
+        <div class="w-full mt-6 flex justify-start md:justify-center px-4">
+          <button class="boton-secundario volver-menu">Volver al Menú</button>
+        </div>
+        <div class="w-full mt-4 text-center px-4">
+          <p class="text-sm text-[#0e1b18]">
+            <i class="fas fa-info-circle text-[#49e9c9]"></i>
+            Si necesitas ayuda, selecciona "No estoy seguro" para obtener orientación.
+          </p>
+        </div>
+      </section>
+    </section>
+
+    <!-- Simulador: Pregunta 8 -->
+    <section id="simulator-question8" class="hidden flex-grow container mx-auto px-4 md:px-10 max-w-7xl">
+      <section class="simulador-container relative w-full flex flex-col justify-center items-center md:items-stretch" style="min-height: calc(100vh - 160px); margin-top: 1rem; margin-bottom: 2rem;">
+        <h1 class="text-xl md:text-2xl font-bold text-center mb-4 text-[#0e1b18]">Nivel 1: Conociéndote mejor</h1>
+        <h3 class="text-center text-[#4f9688] font-medium mb-6">¡Prepárate para destacar en tus entrevistas!</h3>
+        <div class="w-full flex justify-center mb-4">
+          <div class="w-full max-w-2xl px-4 md:px-0">
+            <div class="bg-[#e8f3f0] h-2 rounded-full mx-auto" style="max-width: 80%;">
+              <div class="barra-progreso-completado h-2 rounded-full" style="width: 80%;"></div>
+            </div>
+            <p class="text-sm text-center text-[#0e1b18] mt-2">Pregunta 8 de 10</p>
+          </div>
+        </div>
+        <div class="simulador-pantalla w-full max-w-md md:max-w-2xl relative mx-auto flex flex-col items-center">
+          <div class="simulador-avatar-container">
+            <div class="globo-dialogo" alt="Mochi Avatar">
+              <p id="dialogo-texto-8">"¡Eres impresionante, sigamos avanzando!"</p>
+            </div>
+            <img src="img/AVATAR-POSISION3-MOCHI.png" alt="Mochi Avatar" class="simulador-avatar">
+          </div>
+          <div class="w-full">
+            <h2 class="pregunta text-center md:text-left px-4">¿Cómo te aseguras de cumplir con los plazos establecidos?</h2>
+            <div class="opciones px-4">
+              <button class="opcion">Haciendo un cronograma detallado.</button>
+              <button class="opcion">Trabajando horas extras si es necesario.</button>
+              <button class="opcion">Delegando tareas cuando es posible.</button>
+              <button class="opcion">No estoy seguro, necesitaría orientación.</button>
+            </div>
+          </div>
+        </div>
+        <div class="w-full mt-6 flex justify-start md:justify-center px-4">
+          <button class="boton-secundario volver-menu">Volver al Menú</button>
+        </div>
+        <div class="w-full mt-4 text-center px-4">
+          <p class="text-sm text-[#0e1b18]">
+            <i class="fas fa-info-circle text-[#49e9c9]"></i>
+            Si necesitas ayuda, selecciona "No estoy seguro" para obtener orientación.
+          </p>
+        </div>
+      </section>
+    </section>
+
+    <!-- Simulador: Pregunta 9 -->
+    <section id="simulator-question9" class="hidden flex-grow container mx-auto px-4 md:px-10 max-w-7xl">
+      <section class="simulador-container relative w-full flex flex-col justify-center items-center md:items-stretch" style="min-height: calc(100vh - 160px); margin-top: 1rem; margin-bottom: 2rem;">
+        <h1 class="text-xl md:text-2xl font-bold text-center mb-4 text-[#0e1b18]">Nivel 1: Conociéndote mejor</h1>
+        <h3 class="text-center text-[#4f9688] font-medium mb-6">¡Prepárate para destacar en tus entrevistas!</h3>
+        <div class="w-full flex justify-center mb-4">
+          <div class="w-full max-w-2xl px-4 md:px-0">
+            <div class="bg-[#e8f3f0] h-2 rounded-full mx-auto" style="max-width: 80%;">
+              <div class="barra-progreso-completado h-2 rounded-full" style="width: 90%;"></div>
+            </div>
+            <p class="text-sm text-center text-[#0e1b18] mt-2">Pregunta 9 de 10</p>
+          </div>
+        </div>
+        <div class="simulador-pantalla w-full max-w-md md:max-w-2xl relative mx-auto flex flex-col items-center">
+          <div class="simulador-avatar-container">
+            <div class="globo-dialogo" alt="Mochi Avatar">
+              <p id="dialogo-texto-9">"¡Increíble! Una pregunta más para finalizar."</p>
+            </div>
+            <img src="img/AVATAR-POSISION3-MOCHI.png" alt="Mochi Avatar" class="simulador-avatar">
+          </div>
+          <div class="w-full">
+            <h2 class="pregunta text-center md:text-left px-4">¿Qué importancia le das al aprendizaje continuo?</h2>
+            <div class="opciones px-4">
+              <button class="opcion">Es crucial para mi desarrollo profesional.</button>
+              <button class="opcion">Lo hago solo cuando es necesario.</button>
+              <button class="opcion">Depende del contexto laboral.</button>
+              <button class="opcion">No estoy seguro, necesitaría orientación.</button>
+            </div>
+          </div>
+        </div>
+        <div class="w-full mt-6 flex justify-start md:justify-center px-4">
+          <button class="boton-secundario volver-menu">Volver al Menú</button>
+        </div>
+        <div class="w-full mt-4 text-center px-4">
+          <p class="text-sm text-[#0e1b18]">
+            <i class="fas fa-info-circle text-[#49e9c9]"></i>
+            Si necesitas ayuda, selecciona "No estoy seguro" para obtener orientación.
+          </p>
+        </div>
+      </section>
+    </section>
+
+    <!-- Simulador: Pregunta 10 -->
+    <section id="simulator-question10" class="hidden flex-grow container mx-auto px-4 md:px-10 max-w-7xl">
+      <section class="simulador-container relative w-full flex flex-col justify-center items-center md:items-stretch" style="min-height: calc(100vh - 160px); margin-top: 1rem; margin-bottom: 2rem;">
+        <h1 class="text-xl md:text-2xl font-bold text-center mb-4 text-[#0e1b18]">Nivel 1: Conociéndote mejor</h1>
+        <h3 class="text-center text-[#4f9688] font-medium mb-6">¡Prepárate para destacar en tus entrevistas!</h3>
+        <div class="w-full flex justify-center mb-4">
+          <div class="w-full max-w-2xl px-4 md:px-0">
+            <div class="bg-[#e8f3f0] h-2 rounded-full mx-auto" style="max-width: 80%;">
+              <div class="barra-progreso-completado h-2 rounded-full" style="width: 100%;"></div>
+            </div>
+            <p class="text-sm text-center text-[#0e1b18] mt-2">Pregunta 10 de 10</p>
+          </div>
+        </div>
+        <div class="simulador-pantalla w-full max-w-md md:max-w-2xl relative mx-auto flex flex-col items-center">
+          <div class="simulador-avatar-container">
+            <div class="globo-dialogo" alt="Mochi Avatar">
+              <p id="dialogo-texto-10">"¡Estás a un paso de completar el nivel 1!"</p>
+            </div>
+            <img src="img/AVATAR-POSISION3-MOCHI.png" alt="Mochi Avatar" class="simulador-avatar">
+          </div>
+          <div class="w-full">
+            <h2 class="pregunta text-center md:text-left px-4">¿Cómo planeas aplicar lo aprendido en esta experiencia?</h2>
+            <div class="opciones px-4">
+              <button class="opcion">En futuras entrevistas laborales.</button>
+              <button class="opcion">Para mi desarrollo personal.</button>
+              <button class="opcion">Ambas opciones.</button>
+              <button class="opcion">No estoy seguro, necesitaría orientación.</button>
+            </div>
+          </div>
+        </div>
+        <div class="w-full mt-6 flex justify-start md:justify-center px-4">
+          <button class="boton-secundario volver-menu">Volver al Menú</button>
+        </div>
+        <div class="w-full mt-4 text-center px-4">
+          <p class="text-sm text-[#0e1b18]">
+            <i class="fas fa-info-circle text-[#49e9c9]"></i>
+            Si necesitas ayuda, selecciona "No estoy seguro" para obtener orientación.
+          </p>
+        </div>
+      </section>
+    </section>
+<!-- Página de Progreso -->
+<section id="progress-page" class="hidden">
+    <div class="w-full flex justify-start px-4 mb-6">
+      <button class="boton-secundario volver-menu" style="margin-top: 1em;">Volver al Menú</button>
+    </div>
+    
+    <div class="flex flex-col md:flex-row">
+      <!-- Índice o navegación -->
+      <aside class="w-full md:w-1/4 p-4 bg-[#49e9c9] rounded-lg shadow-md">
+        <h2 class="text-xl font-bold mb-4">Progreso por Nivel</h2>
+        <ul class="space-y-2">
+          <li>
+            <button onclick="showLevels('basic')" class="w-full text-left text-[#0e1b18] font-medium py-2 px-4 bg-[#e8f3f0] rounded-lg hover:bg-[#cfdad6]">
+              Básico
+            </button>
+          </li>
+          <li>
+            <button onclick="showLevels('intermediate')" class="w-full text-left text-[#0e1b18] font-medium py-2 px-4 bg-[#e8f3f0] rounded-lg hover:bg-[#cfdad6]">
+              Intermedio
+            </button>
+          </li>
+          <li>
+            <button onclick="showLevels('advanced')" class="w-full text-left text-[#0e1b18] font-medium py-2 px-4 bg-[#e8f3f0] rounded-lg hover:bg-[#cfdad6]">
+              Avanzado
+            </button>
+          </li>
+        </ul>
+      </aside>
+  
+      <!-- Sección de niveles -->
+      <section class="w-full md:w-3/4 p-4">
+        <h1 id="level-category" class="text-2xl font-bold mb-6">Básico</h1>
+        <div id="levels-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Niveles generados dinámicamente -->
+        </div>
+      </section>
+    </div>
+  </section>
+  
+  </main>
+
+  <!-- Modal de Finalización -->
+  <div id="completionModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div class="bg-white rounded-lg p-6 shadow-lg max-w-md w-full text-center relative">
+      <!-- Botón de cerrar -->
+      <button onclick="closeCompletionModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times"></i>
+      </button>
+      <!-- Título del modal -->
+      <h2 class="text-2xl font-bold text-[#0e1b18] mb-4">¡Felicidades!</h2>
+      <!-- Avatar debajo del título -->
+      <div class="flex justify-center mb-4">
+        <img src="img/AVATAR-POSISION4-MOCHI.png" alt="Mochi Avatar" class="w-24 h-auto">
+      </div>
+      <!-- Mensaje del modal -->
+      <p class="text-[#4f9688] mb-6">¡Has completado el nivel 1! Sigue avanzando para prepararte aún mejor.</p>
+      <!-- Botón de continuar -->
+      <button onclick="goToProgressPage()" class="boton">Aceptar</button>
+    </div>
+  </div>
+  
+  <footer class="bg-[#f8fbfb] py-6 text-center border-t border-[#e2e8f0] shadow-sm mt-10">
+    <div class="flex justify-center gap-6 mb-4">
+      <!-- Íconos de redes sociales -->
+      <a href="https://facebook.com" target="_blank" class="text-[#3fc0a4] text-3xl transition-transform duration-300 transform hover:-translate-y-1 hover:scale-110">
+        <i class="fab fa-facebook"></i>
+      </a>
+      <a href="https://instagram.com" target="_blank" class="text-[#3fc0a4] text-3xl transition-transform duration-300 transform hover:-translate-y-1 hover:scale-110">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://linkedin.com" target="_blank" class="text-[#3fc0a4] text-3xl transition-transform duration-300 transform hover:-translate-y-1 hover:scale-110">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://youtube.com" target="_blank" class="text-[#3fc0a4] text-3xl transition-transform duration-300 transform hover:-translate-y-1 hover:scale-110">
+        <i class="fab fa-youtube"></i>
+      </a>
+    </div>
+    <!-- Enlaces del footer -->
+    <div class="flex justify-center gap-4">
+      <a href="#" class="text-[#3fc0a4] hover:underline">Acerca de</a>
+      <a href="#" class="text-[#3fc0a4] hover:underline">Equipo</a>
+      <a href="#" class="text-[#3fc0a4] hover:underline">Centro de Ayuda</a>
+    </div>
+    <!-- Copyright -->
+    <p class="text-sm text-[#3fc0a4] mt-4">2024 Formigo</p>
+  </footer>
+  <script>
+    // Variables globales
+    const menuButton = document.getElementById('menuButton');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const profileButton = document.getElementById('profileButton');
+    const profileMenu = document.getElementById('profileMenu');
+    const completionModal = document.getElementById('completionModal'); // Modal de finalización
+  
+    let currentQuestion = 1; // Pregunta actual
+    const totalQuestions = 10; // Total de preguntas
+  
+    // Inicialización de eventos al cargar el DOM
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('button.volver-menu').forEach(boton => {
+        boton.addEventListener('click', returnToMenu);
+      });
+  
+      // Inicializar simulador
+      initializeSimulator();
+  
+      // Inicializar botones de perfil
+      if (profileButton && profileMenu) {
+        profileButton.addEventListener('click', () => {
+          profileMenu.classList.toggle('hidden');
+        });
+        window.addEventListener('click', (e) => {
+          if (!profileButton.contains(e.target) && !profileMenu.contains(e.target)) {
+            profileMenu.classList.add('hidden');
+          }
+        });
+      }
+  
+      // Inicializar menú móvil
+      if (menuButton && mobileMenu) {
+        menuButton.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+          if (!mobileMenu.classList.contains('hidden')) {
+            mobileMenu.classList.add('slide-down');
+          } else {
+            mobileMenu.classList.remove('slide-down');
+          }
+        });
+      }
+  
+      // Inicializar notificaciones
+      const notificationButton = document.getElementById('notificationButton');
+      const notificationMenu = document.getElementById('notificationMenu');
+      if (notificationButton && notificationMenu) {
+        notificationButton.addEventListener('click', (e) => {
+          e.stopPropagation();
+          notificationMenu.classList.toggle('hidden');
+        });
+        window.addEventListener('click', (e) => {
+          if (!notificationButton.contains(e.target) && !notificationMenu.contains(e.target)) {
+            notificationMenu.classList.add('hidden');
+          }
+        });
+      }
+  
+      // Inicializar botón "Ver Progreso"
+      const progressCard = document.getElementById('progress-card');
+      if (progressCard) {
+        progressCard.addEventListener('click', () => {
+          showProgressPage();
+        });
+      }
+    });
+  
+    // Función para iniciar el simulador
+    function startSimulator() {
+      currentQuestion = 1;
+  
+      // Oculta todas las secciones de preguntas
+      document.querySelectorAll('section[id^="simulator-question"]').forEach(section => section.classList.add('hidden'));
+  
+      // Muestra la primera pregunta
+      const firstQuestion = document.getElementById('simulator-question1');
+      if (firstQuestion) {
+        firstQuestion.classList.remove('hidden');
+      } else {
+        console.error("No se encontró la primera pregunta (simulator-question1).");
+      }
+  
+      // Oculta el menú principal
+      const menu = document.getElementById('menu');
+      if (menu) {
+        menu.classList.add('hidden');
+      } else {
+        console.error("No se encontró el menú principal (menu).");
+      }
+    }
+  
+    // Función para regresar al menú principal
+    function returnToMenu() {
+      const allSections = document.querySelectorAll('main > section');
+      allSections.forEach(section => section.classList.add('hidden')); // Oculta todas las secciones
+  
+      const menu = document.getElementById('menu');
+      if (menu) {
+        menu.classList.remove('hidden'); // Muestra el menú principal
+      } else {
+        console.error("No se encontró el menú principal (menu).");
+      }
+    }
+  
+    // Función para avanzar a la siguiente pregunta
+    function nextQuestion() {
+      const currentElement = document.getElementById(`simulator-question${currentQuestion}`);
+      if (currentElement) {
+        currentElement.classList.add('hidden'); // Oculta la pregunta actual
+      } else {
+        console.error(`No se encontró la pregunta actual (simulator-question${currentQuestion}).`);
+      }
+  
+      currentQuestion++; // Incrementa el índice de la pregunta
+  
+      if (currentQuestion <= totalQuestions) {
+        const nextElement = document.getElementById(`simulator-question${currentQuestion}`);
+        if (nextElement) {
+          nextElement.classList.remove('hidden'); // Muestra la siguiente pregunta
+        } else {
+          console.error(`No se encontró la siguiente pregunta (simulator-question${currentQuestion}).`);
+        }
+      } else {
+        // Mostrar el modal al finalizar el nivel
+        setTimeout(() => {
+          showCompletionModal();
+        }, 1000); // Retraso de 1 segundo antes de mostrar el modal
+      }
+    }
+  
+    // Inicializar las opciones del simulador
+    function initializeSimulator() {
+      document.querySelectorAll('.opcion').forEach((opcion) => {
+        opcion.addEventListener('click', () => {
+          nextQuestion();
+          playConfirmSound();
+        });
+      });
+    }
+  
+    // Reproducir un sonido al seleccionar una opción
+    function playConfirmSound() {
+      const confirmSound = document.getElementById('confirmSound');
+      if (confirmSound) {
+        confirmSound.currentTime = 0; // Reinicia el sonido
+        confirmSound.play();
+      }
+    }
+  
+    // Mostrar el modal de finalización
+    function showCompletionModal() {
+      if (completionModal) {
+        completionModal.classList.remove('hidden');
+  
+        // Reproducir el sonido de felicitación
+        const congratulationsSound = document.getElementById('congratulationsSound');
+        if (congratulationsSound) {
+          congratulationsSound.currentTime = 0; // Reinicia el sonido
+          congratulationsSound.play(); // Reproduce el sonido
+        }
+      } else {
+        console.error("No se encontró el modal de finalización (completionModal).");
+      }
+    }
+  
+    // Cerrar el modal de finalización y mostrar la página de progreso
+    function goToProgressPage() {
+      if (completionModal) {
+        completionModal.classList.add('hidden'); // Cierra el modal
+      }
+  
+      const allSections = document.querySelectorAll('main > section');
+      allSections.forEach(section => section.classList.add('hidden')); // Oculta todas las secciones
+  
+      const progressPage = document.getElementById('progress-page');
+      if (progressPage) {
+        progressPage.classList.remove('hidden'); // Muestra la página de progreso
+        showLevels('basic'); // Por defecto, carga los niveles básicos
+      } else {
+        console.error("No se encontró la página de progreso.");
+      }
+    }
+  
+    // Mostrar los niveles según la categoría
+    function showLevels(category) {
+      const levelsContainer = document.getElementById("levels-container");
+      const levelCategoryTitle = document.getElementById("level-category");
+  
+      levelCategoryTitle.textContent = category === "basic" ? "Básico" : category === "intermediate" ? "Intermedio" : "Avanzado";
+  
+      levelsContainer.innerHTML = ""; // Limpiar el contenedor
+  
+      levels[category].forEach((level, index) => {
+        const isUnlocked = index < progressState[category];
+        const levelDiv = document.createElement("div");
+        levelDiv.className = `borde-suave text-center p-4 relative ${isUnlocked ? "" : "opacity-50 cursor-not-allowed"}`;
+  
+        levelDiv.innerHTML = `
+          <div class="text-lg font-bold">${level}</div>
+          <p class="text-sm text-[#4f9688] mt-2">Nivel ${index + 1}</p>
+          ${
+            isUnlocked
+              ? '<span class="absolute top-2 right-2 bg-[#49e9c9] text-white text-xs px-2 py-0.5 rounded-full">✓</span>'
+              : '<span class="absolute top-2 right-2 bg-gray-400 text-white text-xs px-2 py-0.5 rounded-full">🔒</span>'
+          }
+        `;
+  
+        if (isUnlocked) {
+          levelDiv.addEventListener("click", () => {
+            if (category === "basic" && index === 0) startSimulator();
+            else alert(`Nivel ${index + 1}: ${level}`);
+          });
+        }
+  
+        levelsContainer.appendChild(levelDiv);
+      });
+    }
+  
+    // Niveles disponibles
+   // Datos para los niveles
+   const levels = {
+    basic: [
+      "Conociéndote mejor",
+      "Lenguaje corporal positivo",
+      "Contacto visual efectivo",
+      "Sonrisa profesional",
+      "Hablar con claridad",
+      "Pausas estratégicas al hablar",
+      "Evitar palabras de relleno",
+      "Saludos iniciales",
+      "Primera impresión exitosa",
+      "Respuesta al '¿Háblame de ti?'",
+      "Presentar tus fortalezas",
+      "Cómo describir logros académicos",
+      "Resaltar experiencias laborales",
+      "Cómo hablar de tus metas",
+      "Respuesta al '¿Por qué esta empresa?'",
+      "Cómo manejar preguntas inesperadas",
+      "Hablar de debilidades positivamente",
+      "Ejemplos de trabajo en equipo",
+      "Resolver conflictos en entrevistas",
+      "Mostrar interés por el puesto",
+      "Gestión del tiempo durante entrevistas",
+      "Cómo manejar interrupciones",
+      "Preparación previa a la entrevista",
+      "Investigación de empresas",
+      "Vestimenta profesional",
+      "Errores comunes en entrevistas",
+      "Preparación mental para entrevistas",
+      "Cómo calmar los nervios",
+      "Técnicas de respiración",
+      "Cómo cerrar una entrevista con éxito",
+      "Gestión de entrevistas virtuales",
+      "Configuración de entorno virtual",
+      "Lenguaje corporal en video",
+      "Cómo manejar problemas técnicos",
+      "Practicar respuestas con amigos",
+      "Simulaciones de entrevistas",
+      "Uso de ejemplos STAR",
+      "Hablar de liderazgo",
+      "Cómo hablar de habilidades blandas",
+      "Ejemplos de resolución de problemas",
+      "Hablar sobre adaptabilidad",
+      "Cómo responder sobre estrés laboral",
+      "Uso de datos en tus respuestas",
+      "Cómo hablar sobre pasatiempos",
+      "Describir voluntariados",
+      "Cómo responder sobre salario",
+      "Preguntas sobre flexibilidad",
+      "Hablar de balance vida-trabajo",
+      "Cómo explicar cambios de carrera",
+      "Hablar sobre despidos",
+      "Responder sobre educación incompleta",
+      "Cómo explicar lagunas laborales",
+      "Preguntas de comportamiento",
+      "Preguntas hipotéticas",
+      "Cómo hablar de éxito profesional",
+      "Responder sobre errores pasados",
+      "Hablar de tu rol ideal",
+      "Cómo manejar preguntas personales",
+      "Preparación para paneles de entrevistas",
+      "Cómo responder rápidamente",
+      "Uso de humor en entrevistas",
+      "Cómo mantener profesionalismo",
+      "Hablar de ética laboral",
+      "Cómo describir cultura laboral ideal",
+      "Responder sobre trabajo remoto",
+      "Cómo manejar feedback negativo",
+      "Hablar de habilidades técnicas",
+      "Describir cursos o certificaciones",
+      "Cómo hablar de idiomas aprendidos",
+      "Uso de ejemplos numéricos",
+      "Cómo hablar de proyectos personales",
+      "Presentación de portafolios",
+      "Uso de referencias en entrevistas",
+      "Cómo hacer preguntas al final",
+      "Preguntas estratégicas sobre el puesto",
+      "Cómo hablar de planes futuros",
+      "Cómo despedirte adecuadamente",
+      "Preparación post-entrevista",
+      "Cómo enviar un correo de agradecimiento",
+      "Seguimiento después de entrevistas",
+      "Aprender de entrevistas fallidas",
+      "Cómo mejorar con feedback",
+      "Preparación para entrevistas técnicas",
+      "Cómo manejar pruebas prácticas",
+      "Hablar de experiencia con software",
+      "Cómo describir metodologías usadas",
+      "Responder sobre trabajo independiente",
+      "Hablar de colaboración en proyectos",
+      "Responder sobre horarios flexibles",
+      "Cómo hablar de liderazgo remoto",
+      "Describir aprendizaje autodirigido",
+      "Cómo manejar entrevistas difíciles",
+      "Responder sobre cambio organizacional",
+      "Cómo hablar sobre innovación",
+      "Describir habilidades multitarea",
+      "Hablar sobre trabajo bajo presión",
+      "Cómo manejar varias ofertas laborales",
+      "Responder sobre diversidad e inclusión",
+      "Hablar de contribución al equipo",
+      "Responder sobre fallos del equipo",
+      "Prepararte para entrevistas futuras",
+    ],
+    intermediate: [
+      "Respuestas a preguntas técnicas",
+      "Cómo liderar equipos",
+      "Comunicación efectiva bajo presión",
+      "Cómo gestionar conflictos avanzados",
+      "Preparación para paneles de entrevistas",
+      // Añade aquí más niveles intermedios
+    ],
+    advanced: [
+      "Dominio en entrevistas técnicas",
+      "Optimización de presentación personal",
+      "Habilidades de negociación avanzada",
+      "Preparación para múltiples ofertas",
+      "Cómo liderar organizaciones",
+      // Añade aquí más niveles avanzados
+    ],
+  };
+  
+    // Estado de progreso de los niveles
+    const progressState = {
+      basic: 3,
+      intermediate: 0,
+      advanced: 0,
+    };
+  
+    // Mostrar la página de progreso desde el botón
+    function showProgressPage() {
+      const allSections = document.querySelectorAll('main > section');
+      allSections.forEach(section => section.classList.add('hidden')); // Oculta todas las secciones
+  
+      const progressPage = document.getElementById('progress-page');
+      if (progressPage) {
+        progressPage.classList.remove('hidden'); // Muestra la página de progreso
+        showLevels("basic"); // Por defecto, carga niveles básicos
+      }
+    }
+  </script>
+  
+</body>
+</html>
+
